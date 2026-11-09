@@ -135,16 +135,16 @@ Indexes: `{ startTime: 1, status: 1 }` and `{ customer: 1, startTime: -1 }`.
 
 ## Phase 1 — Authentication (backend)
 
-- [ ] `User` model (see table). Add a method `comparePassword(plain)`.
-- [ ] zod schemas: register (name, email, password min 8, optional phone), login
-- [ ] `validate(schema)` middleware → 400 with field details on failure
-- [ ] `POST /api/auth/register`: reject duplicate email (409), hash password, create user, set JWT cookie, return user (no hash)
-- [ ] `POST /api/auth/login`: generic "Invalid email or password" on any failure (don't reveal which), set cookie
-- [ ] `POST /api/auth/logout`: clear cookie
-- [ ] `requireAuth` middleware (reads cookie, verifies JWT, loads user to `req.user`, 401 if invalid) and `requireAdmin` (403 if not admin)
-- [ ] `GET /api/auth/me`
-- [ ] Rate-limit register + login (e.g. 10 requests / 15 min per IP)
-- [ ] Tests (vitest + supertest + mongodb-memory-server): register, duplicate email, login success/fail, `/me` with and without cookie
+- [x] `User` model (see table). Add a method `comparePassword(plain)`.
+- [x] zod schemas: register (name, email, password min 8, optional phone), login
+- [x] `validate(schema)` middleware → 400 with field details on failure
+- [x] `POST /api/auth/register`: reject duplicate email (409), hash password, create user, set JWT cookie, return user (no hash)
+- [x] `POST /api/auth/login`: generic "Invalid email or password" on any failure (don't reveal which), set cookie
+- [x] `POST /api/auth/logout`: clear cookie
+- [x] `requireAuth` middleware (reads cookie, verifies JWT, loads user to `req.user`, 401 if invalid) and `requireAdmin` (403 if not admin)
+- [x] `GET /api/auth/me`
+- [x] Rate-limit register + login (e.g. 10 requests / 15 min per IP)
+- [x] Tests (vitest + supertest + mongodb-memory-server): register, duplicate email, login success/fail, `/me` with and without cookie
 
 **Done when:** all auth tests pass and passwords never appear in any response.
 

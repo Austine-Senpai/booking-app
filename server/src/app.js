@@ -3,12 +3,18 @@ import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import { env } from "./config/env.js";
+import { env, isProduction } from "./config/env.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
+import authRoutes from "./routes/authRoutes.js";
 
 // The app is built here but NOT started here (no app.listen).
 // That lets tests import it and send requests with supertest.
 const app = express();
+
+// Hosts like Render put a proxy in front of the app. Without this, every request
+// would appear to come from the proxy's IP — and the rate limiter would lock out
+// ALL users together after 10 logins.
+if (isProduction) app.set("trust proxy", 1);
 
 app.use(helmet()); // sets safe HTTP headers
 app.use(
@@ -24,7 +30,8 @@ app.get("/api/health", (req, res) => {
   res.json({ data: { status: "ok", time: new Date().toISOString() } });
 });
 
-// Routers for auth, services, bookings… get mounted here in later phases.
+app.use("/api/auth", authRoutes);
+// Routers for services, bookings… get mounted here in later phases.
 
 // These two must come LAST: anything not handled above is a 404,
 // and any error thrown above ends up in errorHandler.
