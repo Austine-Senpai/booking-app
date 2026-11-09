@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { getSettings } from "../api/settings.js";
 
-// Loads the public business settings once when a component mounts.
+// The admin Settings page fires this after saving, so every useSettings()
+// (e.g. the business name in the navbar and sidebar) reloads straight away.
+export const SETTINGS_UPDATED_EVENT = "settings-updated";
+
+export function announceSettingsUpdated() {
+  window.dispatchEvent(new Event(SETTINGS_UPDATED_EVENT));
+}
+
+// Loads the public business settings when a component mounts (and again
+// whenever the admin saves new settings).
 // Usage: const { settings, loading, error } = useSettings();
 export function useSettings() {
   const [settings, setSettings] = useState(null);
@@ -24,8 +33,10 @@ export function useSettings() {
     }
     load();
 
+    window.addEventListener(SETTINGS_UPDATED_EVENT, load);
     return () => {
       ignore = true;
+      window.removeEventListener(SETTINGS_UPDATED_EVENT, load);
     };
   }, []);
 

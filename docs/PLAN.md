@@ -266,12 +266,12 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 8 — Admin pages
 
-- [ ] Dashboard: stat cards (today's bookings, upcoming, this week's revenue from `completed` bookings) + today's schedule list
-- [ ] Bookings page: date filter (default today), status filter, list/table with customer name + phone, service, time, status; buttons to mark Completed / No-show / Cancel; pagination
-- [ ] Services page: list incl. inactive; create/edit form (price entered in naira, converted to kobo before sending); activate/deactivate toggle
-- [ ] Settings page: business info, 7-day working hours editor (open toggle + time inputs), booking rules (interval, notice, window, cancellation notice)
-- [ ] Blocked times page: add (date + start/end time or "whole day") and delete; list upcoming
-- [ ] Verify each admin page in the browser (Playwright MCP if available)
+- [x] Dashboard: stat cards (today's bookings, upcoming, this week's revenue from `completed` bookings) + today's schedule list
+- [x] Bookings page: date filter (default today), status filter, list/table with customer name + phone, service, time, status; buttons to mark Completed / No-show / Cancel; pagination
+- [x] Services page: list incl. inactive; create/edit form (price entered in naira, converted to kobo before sending); activate/deactivate toggle
+- [x] Settings page: business info, 7-day working hours editor (open toggle + time inputs), booking rules (interval, notice, window, cancellation notice)
+- [x] Blocked times page: add (date + start/end time or "whole day") and delete; list upcoming
+- [x] Verify each admin page in the browser (Playwright MCP if available)
 
 **Done when:** the owner can run the business entirely from the admin pages — changes to hours, services and blocked times immediately affect the slots customers see.
 
