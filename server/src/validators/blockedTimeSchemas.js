@@ -1,10 +1,5 @@
 import * as z from "zod";
-
-// Must include a timezone: "2026-12-25T00:00:00Z" or "2026-12-25T00:00:00+01:00".
-// A bare "2026-12-25T00:00" is rejected — we couldn't know which timezone was meant.
-const dateTime = z.iso
-  .datetime({ offset: true, error: "Use an ISO date-time with a timezone, e.g. 2026-12-25T09:00:00+01:00" })
-  .transform((value) => new Date(value));
+import { isoDateTime as dateTime } from "./common.js";
 
 export const createBlockedTimeSchema = z
   .object({

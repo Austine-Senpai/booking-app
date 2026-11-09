@@ -10,6 +10,7 @@ import serviceRoutes from "./routes/serviceRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import availabilityRoutes from "./routes/availabilityRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 
 // The app is built here but NOT started here (no app.listen).
 // That lets tests import it and send requests with supertest.
@@ -38,8 +39,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/availability", availabilityRoutes);
+app.use("/api/bookings", bookingRoutes); // requireAuth applied inside
 app.use("/api/admin", adminRoutes); // requireAuth + requireAdmin applied inside
-// Bookings router gets mounted here in Phase 4.
 
 // These two must come LAST: anything not handled above is a 404,
 // and any error thrown above ends up in errorHandler.

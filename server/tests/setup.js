@@ -9,6 +9,9 @@ let mongo;
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
   await mongoose.connect(mongo.getUri());
+  // Wait for every model's indexes (e.g. the unique booking index) to exist
+  // before tests run — otherwise the first test could slip past them.
+  await Promise.all(Object.values(mongoose.models).map((model) => model.init()));
 });
 
 // Empty every collection between tests so they can't affect each other.

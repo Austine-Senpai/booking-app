@@ -34,5 +34,12 @@ const bookingSchema = new mongoose.Schema(
 bookingSchema.index({ startTime: 1, status: 1 });
 // "This customer's bookings, newest first" — used by My Bookings
 bookingSchema.index({ customer: 1, startTime: -1 });
+// The database's own guard against double booking: two CONFIRMED bookings can
+// never share a start time, even if two requests pass our checks at the same
+// instant. Cancelled/completed bookings are ignored, so a freed slot can be rebooked.
+bookingSchema.index(
+  { startTime: 1 },
+  { unique: true, partialFilterExpression: { status: "confirmed" } }
+);
 
 export const Booking = mongoose.model("Booking", bookingSchema);

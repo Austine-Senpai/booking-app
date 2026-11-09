@@ -201,19 +201,19 @@ This is the most important part of the app. Keep it pure and well tested.
 ## Phase 4 — Bookings (backend)
 
 - [x] `Booking` model with indexes
-- [ ] `POST /api/bookings` (customer):
+- [x] `POST /api/bookings` (customer):
   - service must exist and be active
   - `startTime` must be one of the slots returned by the availability logic for that day → otherwise **409** "Sorry, that time was just taken. Please pick another slot."
   - compute `endTime`, copy `priceAtBooking`, save
   - right before saving, run one more overlap query against confirmed bookings (protects against two people booking at the same moment); 409 if found
-- [ ] `GET /api/bookings/mine?scope=upcoming|past` (populate service name/duration)
-- [ ] `PATCH /api/bookings/:id/cancel`: only the owner; only `confirmed`; must be at least `cancellationNoticeHours` before start (else 400 with a clear message); set `cancelledAt`, `cancelledBy: "customer"`
-- [ ] `PATCH /api/bookings/:id/reschedule`: same ownership/notice rules; new slot must be available (ignore the booking's own current time when checking)
-- [ ] Admin: `GET /api/admin/bookings` (filter by `date` in business timezone and `status`, paginate 20/page, populate customer + service)
-- [ ] Admin: `PATCH /api/admin/bookings/:id/status`
-- [ ] Admin: `GET /api/admin/stats`
-- [ ] Seed: add ~8 demo bookings across past and next few days
-- [ ] Integration tests: create booking, double-booking same slot → 409, customer can't see/cancel someone else's booking (404), late cancellation → 400, reschedule happy path, admin status change
+- [x] `GET /api/bookings/mine?scope=upcoming|past` (populate service name/duration)
+- [x] `PATCH /api/bookings/:id/cancel`: only the owner; only `confirmed`; must be at least `cancellationNoticeHours` before start (else 400 with a clear message); set `cancelledAt`, `cancelledBy: "customer"`
+- [x] `PATCH /api/bookings/:id/reschedule`: same ownership/notice rules; new slot must be available (ignore the booking's own current time when checking)
+- [x] Admin: `GET /api/admin/bookings` (filter by `date` in business timezone and `status`, paginate 20/page, populate customer + service)
+- [x] Admin: `PATCH /api/admin/bookings/:id/status`
+- [x] Admin: `GET /api/admin/stats`
+- [x] Seed: add ~8 demo bookings across past and next few days
+- [x] Integration tests: create booking, double-booking same slot → 409, customer can't see/cancel someone else's booking (404), late cancellation → 400, reschedule happy path, admin status change
 
 **Done when:** all tests pass; booking the same slot twice is impossible.
 

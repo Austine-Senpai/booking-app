@@ -96,8 +96,11 @@ export function generateSlots({ date, service, settings, bookings = [], blockedT
 }
 
 // Loads everything generateSlots needs from the database for one day.
-// `now` is a parameter so tests (and Phase 4) can pass their own.
-export async function getAvailableSlots(serviceId, date, now = new Date()) {
+// Options:
+//   now             → defaults to the real time; tests pass their own
+//   ignoreBookingId → when rescheduling, the booking being moved must not
+//                     block its own new time (e.g. sliding 10:00 → 10:30)
+export async function getAvailableSlots(serviceId, date, { now = new Date(), ignoreBookingId } = {}) {
   const service = await Service.findOne({ _id: serviceId, isActive: true });
   if (!service) throw new AppError("Service not found", 404);
 
@@ -109,8 +112,11 @@ export async function getAvailableSlots(serviceId, date, now = new Date()) {
 
   // Anything overlapping the day — including a block that started yesterday
   const inThisDay = { $lt: dayEnd.toJSDate() };
+  const bookingFilter = { status: "confirmed", startTime: inThisDay, endTime: { $gt: dayStart.toJSDate() } };
+  if (ignoreBookingId) bookingFilter._id = { $ne: ignoreBookingId };
+
   const [bookings, blockedTimes] = await Promise.all([
-    Booking.find({ status: "confirmed", startTime: inThisDay, endTime: { $gt: dayStart.toJSDate() } }),
+    Booking.find(bookingFilter),
     BlockedTime.find({ start: inThisDay, end: { $gt: dayStart.toJSDate() } }),
   ]);
 
