@@ -169,7 +169,7 @@ Indexes: `{ startTime: 1, status: 1 }` and `{ customer: 1, startTime: -1 }`.
 
 This is the most important part of the app. Keep it pure and well tested.
 
-- [ ] `services/availability.js` → **pure** function:
+- [x] `services/availability.js` → **pure** function:
   ```js
   generateSlots({ date, service, settings, bookings, blockedTimes, now })
   // returns [{ start: ISOString(UTC), end: ISOString(UTC), label: "09:30" }]
@@ -181,18 +181,18 @@ This is the most important part of the app. Keep it pure and well tested.
   4. Create candidate starts every `slotIntervalMinutes` from `open`, keeping only those where `start + durationMinutes <= close`.
   5. Drop candidates earlier than `now + minNoticeHours`.
   6. Drop candidates that overlap any confirmed booking or blocked time (`aStart < bEnd && bStart < aEnd`).
-- [ ] `getAvailableSlots(serviceId, date)` wrapper: loads service, settings, that day's confirmed bookings + blocked times from the DB, calls `generateSlots`
-- [ ] `GET /api/availability?serviceId=&date=` with zod validation of the query
-- [ ] **Unit tests for `generateSlots`** (no DB needed), at least:
-  - [ ] closed day → `[]`
-  - [ ] past date → `[]`; beyond booking window → `[]`
-  - [ ] 30-min service, 09:00–17:00, 30-min interval → 16 slots, first `09:00`, last `16:30`
-  - [ ] 90-min service doesn't get a slot that runs past closing
-  - [ ] existing 10:00–10:30 booking removes 10:00 for a 30-min service AND 09:30 for a 60-min service
-  - [ ] cancelled bookings do NOT block slots
-  - [ ] blocked time 13:00–14:00 removes overlapping slots
-  - [ ] min-notice rule removes slots too close to `now`
-  - [ ] times are correct in `Africa/Lagos` (09:00 local = 08:00 UTC)
+- [x] `getAvailableSlots(serviceId, date)` wrapper: loads service, settings, that day's confirmed bookings + blocked times from the DB, calls `generateSlots`
+- [x] `GET /api/availability?serviceId=&date=` with zod validation of the query
+- [x] **Unit tests for `generateSlots`** (no DB needed), at least:
+  - [x] closed day → `[]`
+  - [x] past date → `[]`; beyond booking window → `[]`
+  - [x] 30-min service, 09:00–17:00, 30-min interval → 16 slots, first `09:00`, last `16:30`
+  - [x] 90-min service doesn't get a slot that runs past closing
+  - [x] existing 10:00–10:30 booking removes 10:00 for a 30-min service AND 09:30 for a 60-min service
+  - [x] cancelled bookings do NOT block slots
+  - [x] blocked time 13:00–14:00 removes overlapping slots
+  - [x] min-notice rule removes slots too close to `now`
+  - [x] times are correct in `Africa/Lagos` (09:00 local = 08:00 UTC)
 
 **Done when:** all availability tests pass and the endpoint returns sensible slots for seeded services.
 
@@ -200,7 +200,7 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 4 — Bookings (backend)
 
-- [ ] `Booking` model with indexes
+- [x] `Booking` model with indexes
 - [ ] `POST /api/bookings` (customer):
   - service must exist and be active
   - `startTime` must be one of the slots returned by the availability logic for that day → otherwise **409** "Sorry, that time was just taken. Please pick another slot."
