@@ -1,2 +1,12 @@
 /* Tailwind v4: one import is all the setup it needs (no tailwind.config.js). */
 @import "tailwindcss";
+
+/* Brand colour used across the app (buttons, links, active nav items).
+   Change these values in one place to re-theme everything — e.g. bg-brand-600. */
+@theme {
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #115e59;
+}

@@ -232,14 +232,14 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 6 — Frontend foundation
 
-- [ ] React Router setup with all routes from the Pages table (placeholder pages are fine)
-- [ ] `PublicLayout` (navbar with logo/business name, Services, My bookings / Login, Logout; footer) and `AdminLayout` (sidebar on desktop, top menu on mobile)
-- [ ] `AuthContext`: `user`, `loading`, `login`, `register`, `logout`; calls `/api/auth/me` on app load
-- [ ] `ProtectedRoute` (redirects to `/login?redirect=...`) and `AdminRoute`
-- [ ] Reusable components: `Button`, `Input`, `Select`, `Spinner`, `ErrorMessage`, `EmptyState`, `Modal` (for confirmations)
-- [ ] `utils/formatMoney.js` (kobo → "₦5,000") and `utils/formatDateTime.js` (Luxon, business timezone)
-- [ ] Login and Register pages with validation messages from the API; after login go to `redirect` param or home
-- [ ] `NotFound` page
+- [x] React Router setup with all routes from the Pages table (placeholder pages are fine)
+- [x] `PublicLayout` (navbar with logo/business name, Services, My bookings / Login, Logout; footer) and `AdminLayout` (sidebar on desktop, top menu on mobile)
+- [x] `AuthContext`: `user`, `loading`, `login`, `register`, `logout`; calls `/api/auth/me` on app load
+- [x] `ProtectedRoute` (redirects to `/login?redirect=...`) and `AdminRoute`
+- [x] Reusable components: `Button`, `Input`, `Select`, `Spinner`, `ErrorMessage`, `EmptyState`, `Modal` (for confirmations)
+- [x] `utils/formatMoney.js` (kobo → "₦5,000") and `utils/formatDateTime.js` (Luxon, business timezone)
+- [x] Login and Register pages with validation messages from the API; after login go to `redirect` param or home
+- [x] `NotFound` page
 
 **Done when:** you can register, log in, refresh the page and stay logged in, log out, and admin pages redirect non-admins.
 
