@@ -5,7 +5,13 @@ const VARIANTS = {
   secondary: "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 focus-visible:outline-slate-500",
   danger: "bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600",
   ghost: "text-slate-700 hover:bg-slate-100 focus-visible:outline-slate-500",
+  // A quieter danger button, e.g. "Cancel" next to "Reschedule"
+  dangerGhost: "text-red-700 hover:bg-red-50 focus-visible:outline-red-600",
 };
+
+// Note: pick a variant rather than adding colour classes via className —
+// two Tailwind colour classes on one element fight, and the winner is decided
+// by their order in the CSS file, not by the order you wrote them.
 
 // <Button loading={saving} onClick={save}>Save</Button>
 // While `loading`, it shows a spinner and can't be clicked twice.

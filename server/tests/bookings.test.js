@@ -175,6 +175,27 @@ describe("GET /api/bookings/mine", () => {
   });
 });
 
+describe("GET /api/bookings/:id", () => {
+  it("returns your own booking with its service", async () => {
+    const customer = await loginAs();
+    const created = await book(customer, "10:00").expect(201);
+
+    const res = await customer.get(`/api/bookings/${created.body.data._id}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toMatchObject({ status: "confirmed", service: { name: "Haircut" } });
+  });
+
+  it("returns 404 for someone else's booking, and 401 when logged out", async () => {
+    const owner = await loginAs();
+    const stranger = await loginAs();
+    const created = await book(owner, "10:00").expect(201);
+
+    expect((await stranger.get(`/api/bookings/${created.body.data._id}`)).status).toBe(404);
+    expect((await request(app).get(`/api/bookings/${created.body.data._id}`)).status).toBe(401);
+  });
+});
+
 describe("PATCH /api/bookings/:id/cancel", () => {
   it("cancels the booking and frees the slot", async () => {
     const customer = await loginAs();

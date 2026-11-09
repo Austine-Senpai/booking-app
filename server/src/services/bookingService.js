@@ -80,6 +80,12 @@ function assertCustomerCanChange(booking, settings, now, action) {
 
 // ---------- Customer actions ----------
 
+// One of the customer's own bookings, e.g. for the confirmation page
+export async function getOwnBooking({ bookingId, customerId }) {
+  const booking = await findOwnBooking(bookingId, customerId);
+  return booking.populate("service", SERVICE_FIELDS);
+}
+
 export async function createBooking({ customerId, serviceId, startTime, notes, now = new Date() }) {
   const service = await Service.findOne({ _id: serviceId, isActive: true });
   if (!service) throw new AppError("Service not found", 404);

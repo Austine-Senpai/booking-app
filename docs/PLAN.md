@@ -247,18 +247,18 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 7 — Customer pages
 
-- [ ] Home page: hero with business name + "Book an appointment" button, short about section, services preview, opening hours, contact info
-- [ ] Services page: cards with name, description, duration, price, "Book" button
-- [ ] Booking flow `/book/:serviceId`:
-  - [ ] service summary at top
-  - [ ] date picker: next 14 days as tappable buttons (closed days disabled)
-  - [ ] slot grid for chosen date (loading + "No slots available, try another day")
-  - [ ] notes field + summary + "Confirm booking"
-  - [ ] if not logged in, send to login and come back to the same step afterwards
-  - [ ] on 409, show the message and refresh the slots
-- [ ] Confirmation page: details + "View my bookings" + "Add to calendar" (optional: download `.ics`)
-- [ ] My Bookings: Upcoming / Past tabs; status badges; Cancel (confirm modal) and Reschedule (reuse the slot picker); hide the buttons when inside the cancellation notice window, with an explanation
-- [ ] Verify the whole flow on a phone-sized screen (Playwright MCP if available)
+- [x] Home page: hero with business name + "Book an appointment" button, short about section, services preview, opening hours, contact info
+- [x] Services page: cards with name, description, duration, price, "Book" button
+- [x] Booking flow `/book/:serviceId`:
+  - [x] service summary at top
+  - [x] date picker: next 14 days as tappable buttons (closed days disabled)
+  - [x] slot grid for chosen date (loading + "No slots available, try another day")
+  - [x] notes field + summary + "Confirm booking"
+  - [x] if not logged in, send to login and come back to the same step afterwards
+  - [x] on 409, show the message and refresh the slots
+- [x] Confirmation page: details + "View my bookings" + "Add to calendar" (optional: download `.ics`)
+- [x] My Bookings: Upcoming / Past tabs; status badges; Cancel (confirm modal) and Reschedule (reuse the slot picker); hide the buttons when inside the cancellation notice window, with an explanation
+- [x] Verify the whole flow on a phone-sized screen (Playwright MCP if available)
 
 **Done when:** a new customer can register, book, see, reschedule and cancel a booking on mobile without errors.
 

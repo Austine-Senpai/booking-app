@@ -31,7 +31,8 @@ export default function Modal({ open, onClose, title, children, actions }) {
       onClose={onClose} // fires when Esc is pressed
       onClick={handleClick}
       aria-labelledby={titleId}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-xl bg-white p-0 shadow-xl backdrop:bg-slate-900/50"
+      // max-h + overflow: a tall popup (e.g. the slot picker) scrolls instead of going off-screen on phones
+      className="m-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-xl bg-white p-0 shadow-xl backdrop:bg-slate-900/50"
     >
       <div className="p-6">
         <h2 id={titleId} className="text-lg font-semibold text-slate-900">

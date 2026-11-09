@@ -4,6 +4,7 @@ import {
   cancelBooking,
   rescheduleBooking,
   buildMyBookingsQuery,
+  getOwnBooking,
 } from "../services/bookingService.js";
 
 // POST /api/bookings — body validated by createBookingSchema
@@ -24,6 +25,12 @@ export async function listMine(req, res) {
     .populate("service", "name durationMinutes");
 
   res.json({ data: bookings });
+}
+
+// GET /api/bookings/:id — only your own (someone else's gives 404)
+export async function getOne(req, res) {
+  const booking = await getOwnBooking({ bookingId: req.params.id, customerId: req.user._id });
+  res.json({ data: booking });
 }
 
 // PATCH /api/bookings/:id/cancel
