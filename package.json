@@ -1,0 +1,13 @@
+{
+  "name": "booking-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Appointment booking system for a small service business",
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}

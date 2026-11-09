@@ -117,17 +117,17 @@ Indexes: `{ startTime: 1, status: 1 }` and `{ customer: 1, startTime: -1 }`.
 
 ## Phase 0 — Project setup
 
-- [ ] Create root `package.json` with a `dev` script using `concurrently` to run client + server; add root `.gitignore` (node_modules, .env, dist, coverage)
-- [ ] Scaffold `server/` (`"type": "module"`), install backend packages from CLAUDE.md, add `dev`, `start`, `test`, `seed` scripts
-- [ ] `server/src/config/env.js`: load `.env`, check required vars exist (`MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL`), exit with a clear message if missing
-- [ ] `server/src/config/db.js`: connect with Mongoose, log success/failure
-- [ ] `server/src/app.js`: helmet, cors (CLIENT_URL + credentials), `express.json()`, cookie-parser, `GET /api/health`, 404 handler, `errorHandler` middleware, `AppError` util
-- [ ] `server/src/server.js`: connect DB then listen on `PORT`
-- [ ] `server/.env.example` with every variable and a comment for each
-- [ ] Scaffold `client/` with Vite + React, install React Router, axios, luxon, Tailwind; set up Vite proxy `/api` → `http://localhost:5000`
-- [ ] `client/src/api/client.js`: shared axios instance (`baseURL: import.meta.env.VITE_API_URL || "/api"`, `withCredentials: true`)
-- [ ] Temporary home page that calls `/api/health` and shows "API connected ✅"
-- [ ] Basic `README.md` with setup steps
+- [x] Create root `package.json` with a `dev` script using `concurrently` to run client + server; add root `.gitignore` (node_modules, .env, dist, coverage)
+- [x] Scaffold `server/` (`"type": "module"`), install backend packages from CLAUDE.md, add `dev`, `start`, `test`, `seed` scripts
+- [x] `server/src/config/env.js`: load `.env`, check required vars exist (`MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL`), exit with a clear message if missing
+- [x] `server/src/config/db.js`: connect with Mongoose, log success/failure
+- [x] `server/src/app.js`: helmet, cors (CLIENT_URL + credentials), `express.json()`, cookie-parser, `GET /api/health`, 404 handler, `errorHandler` middleware, `AppError` util
+- [x] `server/src/server.js`: connect DB then listen on `PORT`
+- [x] `server/.env.example` with every variable and a comment for each
+- [x] Scaffold `client/` with Vite + React, install React Router, axios, luxon, Tailwind; set up Vite proxy `/api` → `http://localhost:5000`
+- [x] `client/src/api/client.js`: shared axios instance (`baseURL: import.meta.env.VITE_API_URL || "/api"`, `withCredentials: true`)
+- [x] Temporary home page that calls `/api/health` and shows "API connected ✅"
+- [x] Basic `README.md` with setup steps
 
 **Done when:** `npm run dev` from the root starts both apps and the home page shows "API connected ✅".
 
