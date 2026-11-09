@@ -17,6 +17,7 @@ import { getBookableDays, firstOpenDay } from "../utils/bookingDays.js";
 import { formatDateTime, formatLongDate, formatTime } from "../utils/formatDateTime.js";
 import { formatMoney } from "../utils/formatMoney.js";
 import { formatDuration } from "../utils/formatDuration.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 const TABS = [
   { id: "upcoming", label: "Upcoming" },
@@ -83,6 +84,7 @@ function BookingCard({ booking, settings, onCancel, onReschedule }) {
 }
 
 export default function MyBookingsPage() {
+  usePageTitle("My bookings");
   // The tab lives in the URL (?tab=past) so a refresh keeps you on the same tab
   const [searchParams, setSearchParams] = useSearchParams();
   const tab = searchParams.get("tab") === "past" ? "past" : "upcoming";

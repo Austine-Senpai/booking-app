@@ -29,7 +29,7 @@ export default function Textarea({ label, error, hint, id, maxLength, value = ""
           {message}
         </p>
         {maxLength && (
-          <p className="shrink-0 text-slate-400">
+          <p className="shrink-0 text-slate-500">
             {value.length}/{maxLength}
           </p>
         )}

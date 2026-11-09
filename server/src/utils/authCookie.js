@@ -7,10 +7,12 @@ export const AUTH_COOKIE_NAME = "token";
 // treats them as different cookies — so they're defined once here.
 const cookieOptions = {
   httpOnly: true, // JavaScript in the browser can't read it → safe from XSS token theft
-  // In production the client and API are on different domains, which requires
-  // sameSite "none" + secure (HTTPS). Locally, Vite's proxy makes it same-site.
-  secure: isProduction,
-  sameSite: isProduction ? "none" : "lax",
+  secure: isProduction, // HTTPS only in production
+  // "lax" (default): the site and API share one domain — locally via Vite's proxy,
+  // in production because the API serves the React app. Safest, works in every browser.
+  // "none": only if you host the client on a DIFFERENT domain. Note that Safari
+  // blocks such cross-site cookies, so logins would fail for iPhone/Mac users.
+  sameSite: env.COOKIE_SAMESITE,
   path: "/",
 };
 

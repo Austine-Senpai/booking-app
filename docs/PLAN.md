@@ -279,13 +279,13 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 9 — Polish, demo-readiness & deploy
 
-- [ ] Consistent design pass: spacing, colors, typography, buttons; business name/branding from settings
-- [ ] Every page: loading, error and empty states; disable buttons while submitting
-- [ ] Friendly toast/inline messages for success and errors
-- [ ] Page titles per route; favicon
-- [ ] Basic accessibility: labels on inputs, keyboard-usable buttons, good color contrast
-- [ ] Seed script ready for demos; show demo logins on the login page **only when** `VITE_DEMO_MODE=true`
-- [ ] README: screenshots, features list, tech stack, setup, env vars, demo logins, live links
+- [x] Consistent design pass: spacing, colors, typography, buttons; business name/branding from settings
+- [x] Every page: loading, error and empty states; disable buttons while submitting
+- [x] Friendly toast/inline messages for success and errors
+- [x] Page titles per route; favicon
+- [x] Basic accessibility: labels on inputs, keyboard-usable buttons, good color contrast
+- [x] Seed script ready for demos; show demo logins on the login page **only when** `VITE_DEMO_MODE=true`
+- [x] README: screenshots, features list, tech stack, setup, env vars, demo logins, live links
 - [ ] Deploy: MongoDB Atlas (DB), Render or Railway (API), Vercel or Netlify (client); set production env vars; check cookies work cross-domain (`secure`, `sameSite: "none"`) and CORS allows the client URL
 - [ ] Final click-through of every flow on the live site, desktop and mobile
 

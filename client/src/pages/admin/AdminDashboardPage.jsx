@@ -11,18 +11,20 @@ import EmptyState from "../../components/EmptyState.jsx";
 import { getErrorMessage } from "../../utils/apiErrors.js";
 import { formatLongDate } from "../../utils/formatDateTime.js";
 import { formatMoney } from "../../utils/formatMoney.js";
+import { usePageTitle } from "../../hooks/usePageTitle.js";
 
 function StatCard({ label, value, hint }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4">
       <p className="text-sm text-slate-500">{label}</p>
       <p className="mt-1 text-2xl font-bold text-slate-900">{value}</p>
-      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
   );
 }
 
 export default function AdminDashboardPage() {
+  usePageTitle("Admin: Dashboard");
   const settings = useFetch(getSettings, []);
   const stats = useFetch(getStats, []);
   const now = useNow();

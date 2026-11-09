@@ -11,6 +11,7 @@ import Spinner from "../../components/Spinner.jsx";
 import ErrorMessage from "../../components/ErrorMessage.jsx";
 import EmptyState from "../../components/EmptyState.jsx";
 import { getErrorMessage } from "../../utils/apiErrors.js";
+import { usePageTitle } from "../../hooks/usePageTitle.js";
 
 const STATUS_OPTIONS = [
   { value: "", label: "All statuses" },
@@ -23,6 +24,7 @@ const STATUS_OPTIONS = [
 // Filters live in the URL (?date=2026-11-12&status=confirmed&page=2), so a
 // refresh or the Back button keeps them. No ?date means "today"; ?date=all means every date.
 export default function AdminBookingsPage() {
+  usePageTitle("Admin: Bookings");
   const [searchParams, setSearchParams] = useSearchParams();
   const settings = useFetch(getSettings, []);
 

@@ -6,8 +6,10 @@ import Input from "../components/Input.jsx";
 import ErrorMessage from "../components/ErrorMessage.jsx";
 import { getErrorMessage, getFieldErrors } from "../utils/apiErrors.js";
 import { safeRedirect } from "../utils/safeRedirect.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function RegisterPage() {
+  usePageTitle("Create an account");
   const { user, register } = useAuth();
   const [searchParams] = useSearchParams();
   const redirectParam = searchParams.get("redirect");

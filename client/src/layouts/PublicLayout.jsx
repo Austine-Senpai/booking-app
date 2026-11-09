@@ -74,6 +74,13 @@ export default function PublicLayout() {
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
+      {/* Invisible until focused with Tab: lets keyboard users jump past the navigation */}
+      <a
+        href="#main"
+        className="sr-only rounded-lg bg-white px-4 py-2 font-semibold text-brand-700 shadow focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+      >
+        Skip to content
+      </a>
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link to="/" onClick={closeMenu} className="text-lg font-bold text-slate-900">
@@ -108,7 +115,8 @@ export default function PublicLayout() {
         )}
       </header>
 
-      <main className="flex-1">
+      {/* tabIndex -1 lets the skip link move keyboard focus here */}
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <Outlet />
       </main>
 
@@ -123,7 +131,7 @@ export default function PublicLayout() {
               </a>
             </p>
           )}
-          <p className="pt-2 text-slate-400">
+          <p className="pt-2 text-slate-500">
             © {CURRENT_YEAR} {businessName}
           </p>
         </div>

@@ -7,6 +7,7 @@ import ServiceCard from "../components/ServiceCard.jsx";
 import Spinner from "../components/Spinner.jsx";
 import ErrorMessage from "../components/ErrorMessage.jsx";
 import { getErrorMessage } from "../utils/apiErrors.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 // ["Monday", …, "Sunday"] — index 0 is Monday, matching dayOfWeek 1 (Luxon style)
 const DAY_NAMES = Info.weekdays("long");
@@ -14,6 +15,7 @@ const DAY_NAMES = Info.weekdays("long");
 const PREVIEW_COUNT = 3;
 
 export default function HomePage() {
+  usePageTitle(null);
   const settings = useFetch(getSettings, []);
   const services = useFetch(getServices, []);
 
@@ -103,7 +105,7 @@ export default function HomePage() {
                     <th scope="row" className="py-2 text-left font-medium text-slate-700">
                       {DAY_NAMES[day.dayOfWeek - 1]}
                     </th>
-                    <td className={`py-2 text-right ${day.isOpen ? "text-slate-900" : "text-slate-400"}`}>
+                    <td className={`py-2 text-right ${day.isOpen ? "text-slate-900" : "text-slate-500"}`}>
                       {day.isOpen ? `${day.open} – ${day.close}` : "Closed"}
                     </td>
                   </tr>

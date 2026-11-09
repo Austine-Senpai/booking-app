@@ -10,6 +10,7 @@ import Select from "../../components/Select.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import ErrorMessage from "../../components/ErrorMessage.jsx";
 import { getErrorMessage, getFieldErrors } from "../../utils/apiErrors.js";
+import { usePageTitle } from "../../hooks/usePageTitle.js";
 
 const DAY_NAMES = Info.weekdays("long"); // index 0 = Monday = dayOfWeek 1
 const INTERVAL_OPTIONS = [10, 15, 20, 30, 45, 60];
@@ -140,7 +141,7 @@ function SettingsForm({ initialSettings }) {
                       onChange={(event) => updateDay(index, { open: event.target.value })}
                       className={timeInputClass}
                     />
-                    <span className="text-slate-400">to</span>
+                    <span className="text-slate-500">to</span>
                     <input
                       type="time"
                       aria-label={`${dayName} closing time`}
@@ -229,6 +230,7 @@ function SettingsForm({ initialSettings }) {
 }
 
 export default function AdminSettingsPage() {
+  usePageTitle("Admin: Settings");
   const settings = useFetch(getSettings, []);
 
   return (

@@ -4,6 +4,7 @@ import { getService } from "../api/services.js";
 import { getSettings } from "../api/settings.js";
 import { createBooking } from "../api/bookings.js";
 import { useFetch } from "../hooks/useFetch.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import SlotPicker from "../components/SlotPicker.jsx";
 import Button from "../components/Button.jsx";
@@ -31,6 +32,7 @@ export default function BookPage() {
 
   const service = useFetch(() => getService(serviceId), [serviceId]);
   const settings = useFetch(getSettings, []);
+  usePageTitle(service.data ? `Book ${service.data.name}` : "Book an appointment");
 
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);

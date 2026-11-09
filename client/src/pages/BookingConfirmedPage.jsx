@@ -11,10 +11,12 @@ import { formatLongDate, formatTime } from "../utils/formatDateTime.js";
 import { formatMoney } from "../utils/formatMoney.js";
 import { formatDuration } from "../utils/formatDuration.js";
 import { buildIcs, downloadIcs } from "../utils/ics.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 // Loads the booking from the API (not from the previous page), so it still
 // works after a refresh or when opened later from a bookmark.
 export default function BookingConfirmedPage() {
+  usePageTitle("Booking confirmed");
   const { id } = useParams();
   const booking = useFetch(() => getMyBooking(id), [id]);
   const settings = useFetch(getSettings, []);

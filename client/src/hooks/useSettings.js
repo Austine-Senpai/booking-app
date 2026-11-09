@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { getSettings } from "../api/settings.js";
+import { getSettings, clearSettingsCache } from "../api/settings.js";
 
 // The admin Settings page fires this after saving, so every useSettings()
 // (e.g. the business name in the navbar and sidebar) reloads straight away.
 export const SETTINGS_UPDATED_EVENT = "settings-updated";
 
 export function announceSettingsUpdated() {
+  clearSettingsCache(); // the cached copy is out of date now
   window.dispatchEvent(new Event(SETTINGS_UPDATED_EVENT));
 }
 

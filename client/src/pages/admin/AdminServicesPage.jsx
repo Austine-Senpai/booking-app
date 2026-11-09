@@ -12,6 +12,7 @@ import EmptyState from "../../components/EmptyState.jsx";
 import { getErrorMessage, getFieldErrors } from "../../utils/apiErrors.js";
 import { formatMoney } from "../../utils/formatMoney.js";
 import { formatDuration } from "../../utils/formatDuration.js";
+import { usePageTitle } from "../../hooks/usePageTitle.js";
 
 const EMPTY_FORM = { name: "", description: "", durationMinutes: "30", priceNaira: "" };
 
@@ -29,6 +30,7 @@ function koboToNairaText(kobo) {
 }
 
 export default function AdminServicesPage() {
+  usePageTitle("Admin: Services");
   const services = useFetch(getAdminServices, []);
   const settings = useFetch(getSettings, []);
   const currency = settings.data?.currency;

@@ -10,6 +10,7 @@ import Spinner from "../../components/Spinner.jsx";
 import ErrorMessage from "../../components/ErrorMessage.jsx";
 import EmptyState from "../../components/EmptyState.jsx";
 import { getErrorMessage } from "../../utils/apiErrors.js";
+import { usePageTitle } from "../../hooks/usePageTitle.js";
 
 // How a block reads in the list, in the business timezone:
 //   whole days:  "Fri 25 Dec 2026"  or  "Thu 24 Dec – Sat 26 Dec 2026"
@@ -54,6 +55,7 @@ function formToRange(form, timezone) {
 }
 
 export default function AdminBlockedTimesPage() {
+  usePageTitle("Admin: Blocked times");
   const blocks = useFetch(getBlockedTimes, []);
   const settings = useFetch(getSettings, []);
   const timezone = settings.data?.timezone;

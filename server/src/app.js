@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -41,6 +43,25 @@ app.use("/api/settings", settingsRoutes);
 app.use("/api/availability", availabilityRoutes);
 app.use("/api/bookings", bookingRoutes); // requireAuth applied inside
 app.use("/api/admin", adminRoutes); // requireAuth + requireAdmin applied inside
+
+// ---------- The React app (production) ----------
+// In production this server also hosts the built website (client/dist), so the
+// site and the API share ONE domain: the login cookie is first-party and works
+// in every browser (Safari blocks cross-site cookies), and there's one URL to share.
+const clientDist = fileURLToPath(new URL("../../client/dist", import.meta.url));
+
+if (isProduction && fs.existsSync(clientDist)) {
+  // Files with hashed names (/assets/index-C0Fm.js) never change → cache them for a year
+  app.use("/assets", express.static(`${clientDist}/assets`, { immutable: true, maxAge: "1y" }));
+  app.use(express.static(clientDist)); // favicon, index.html…
+
+  // Any other GET that isn't an API call is a page of the React app
+  // (/services, /admin/bookings…): send index.html and let React Router show it.
+  app.use((req, res, next) => {
+    if (req.method !== "GET" || req.path.startsWith("/api")) return next();
+    res.sendFile(`${clientDist}/index.html`);
+  });
+}
 
 // These two must come LAST: anything not handled above is a 404,
 // and any error thrown above ends up in errorHandler.

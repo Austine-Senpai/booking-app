@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "description": "Appointment booking system for a small service business",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "concurrently -n server,client -c blue,magenta \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
-    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "build": "npm ci --prefix server --omit=dev && npm ci --prefix client --include=dev && npm run build --prefix client",
+    "start": "npm start --prefix server"
   },
   "devDependencies": {
     "concurrently": "^10.0.7"

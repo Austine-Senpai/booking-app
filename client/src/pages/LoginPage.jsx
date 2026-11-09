@@ -4,10 +4,13 @@ import { useAuth } from "../context/AuthContext.jsx";
 import Button from "../components/Button.jsx";
 import Input from "../components/Input.jsx";
 import ErrorMessage from "../components/ErrorMessage.jsx";
+import DemoAccounts from "../components/DemoAccounts.jsx";
 import { getErrorMessage, getFieldErrors } from "../utils/apiErrors.js";
 import { safeRedirect } from "../utils/safeRedirect.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function LoginPage() {
+  usePageTitle("Log in");
   const { user, login } = useAuth();
   const [searchParams] = useSearchParams();
   const redirectParam = searchParams.get("redirect");
@@ -79,6 +82,14 @@ export default function LoginPage() {
           Log in
         </Button>
       </form>
+
+      <DemoAccounts
+        onUse={(account) => {
+          setForm({ email: account.email, password: account.password });
+          setError("");
+          setFieldErrors({});
+        }}
+      />
     </div>
   );
 }

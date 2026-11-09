@@ -1,6 +1,7 @@
 // Resets the database to a known demo state.
 // Usage: npm run seed            (development)
 //        npm run seed -- --force (needed when NODE_ENV=production)
+import crypto from "node:crypto";
 import mongoose from "mongoose";
 import { DateTime } from "luxon";
 import { env, isProduction } from "../src/config/env.js";
@@ -48,32 +49,48 @@ const SERVICES = [
   },
 ];
 
-// Demo bookings relative to TODAY, so the demo always has a recent past and a
-// near future. [days from today, local time, service name, status]
-const DEMO_BOOKINGS = [
-  [-3, "10:00", "Haircut", "completed"],
-  [-3, "14:00", "Haircut + Beard", "completed"],
-  [-2, "11:00", "Beard trim", "no_show"],
-  [-1, "09:00", "Dreadlocks retwist", "completed"],
-  [-1, "15:00", "Kids cut", "cancelled"],
-  [1, "10:00", "Haircut", "confirmed"],
-  [2, "13:00", "Haircut + Beard", "confirmed"],
-  [3, "09:30", "Dreadlocks retwist", "confirmed"],
+// Other customers, so the admin pages show a realistic mix of names.
+// They get random passwords — nobody logs in as them.
+const OTHER_CUSTOMERS = [
+  { key: "chidi", name: "Chidi Okafor", email: "chidi@example.com", phone: "08031234567" },
+  { key: "amaka", name: "Amaka Nwosu", email: "amaka@example.com", phone: "08059876543" },
 ];
 
-// Builds booking documents for the demo customer. Bookings that would land on
-// a Sunday (closed) move one more day away from today.
-function buildDemoBookings({ customer, services, timezone }) {
-  const today = DateTime.now().setZone(timezone).startOf("day");
+// Demo bookings relative to TODAY, so the demo always has a recent past, a busy
+// today and a near future, whatever day it's seeded.
+// [days from today, local time, service name, status, customer]
+// "auto" = completed if that time has already passed, otherwise confirmed.
+const DEMO_BOOKINGS = [
+  [-3, "10:00", "Haircut", "completed", "demo"],
+  [-3, "14:00", "Haircut + Beard", "completed", "demo"],
+  [-2, "11:00", "Beard trim", "no_show", "demo"],
+  [-2, "16:00", "Kids cut", "completed", "amaka"],
+  [-1, "09:00", "Dreadlocks retwist", "completed", "demo"],
+  [-1, "15:00", "Kids cut", "cancelled", "demo"],
+  [0, "09:00", "Haircut", "auto", "chidi"],
+  [0, "11:30", "Haircut + Beard", "auto", "amaka"],
+  [0, "16:00", "Beard trim", "auto", "chidi"],
+  [1, "10:00", "Haircut", "confirmed", "demo"],
+  [1, "14:30", "Dreadlocks retwist", "confirmed", "amaka"],
+  [2, "13:00", "Haircut + Beard", "confirmed", "demo"],
+  [3, "09:30", "Dreadlocks retwist", "confirmed", "demo"],
+];
 
-  return DEMO_BOOKINGS.map(([daysFromToday, time, serviceName, status]) => {
+// Builds the booking documents. Bookings that would land on a Sunday (closed)
+// move one more day away from today.
+function buildDemoBookings({ customersByKey, services, timezone }) {
+  const now = DateTime.now().setZone(timezone);
+  const today = now.startOf("day");
+
+  return DEMO_BOOKINGS.map(([daysFromToday, time, serviceName, plannedStatus, customerKey]) => {
     let day = today.plus({ days: daysFromToday });
     if (day.weekday === 7) day = day.plus({ days: daysFromToday < 0 ? -1 : 1 });
 
     const service = services.find((s) => s.name === serviceName);
     const start = DateTime.fromISO(`${day.toISODate()}T${time}`, { zone: timezone });
+    const status = plannedStatus === "auto" ? (start < now ? "completed" : "confirmed") : plannedStatus;
     return {
-      customer: customer._id,
+      customer: customersByKey[customerKey]._id,
       service: service._id,
       startTime: start.toJSDate(),
       endTime: start.plus({ minutes: service.durationMinutes }).toJSDate(),
@@ -119,11 +136,12 @@ async function seed() {
   });
 
   console.log("👤 Creating users…");
-  const [adminHash, customerHash] = await Promise.all([
+  const [adminHash, customerHash, randomHash] = await Promise.all([
     hashPassword(adminPassword),
     hashPassword(DEMO_CUSTOMER.password),
+    hashPassword(crypto.randomUUID()), // for the extra customers nobody logs in as
   ]);
-  const [, customer] = await User.create([
+  const [, demoCustomer, ...others] = await User.create([
     { name: "Shop Owner", email: adminEmail, passwordHash: adminHash, role: "admin" },
     {
       name: "Demo Customer",
@@ -131,7 +149,10 @@ async function seed() {
       phone: "08012345678",
       passwordHash: customerHash,
     },
+    ...OTHER_CUSTOMERS.map(({ name, email, phone }) => ({ name, email, phone, passwordHash: randomHash })),
   ]);
+  const customersByKey = { demo: demoCustomer };
+  OTHER_CUSTOMERS.forEach((customer, index) => (customersByKey[customer.key] = others[index]));
 
   console.log("✂️  Creating services…");
   const services = await Service.insertMany(SERVICES);
@@ -140,13 +161,13 @@ async function seed() {
   // The unique "one confirmed booking per start time" index must exist before
   // inserting, so the seed data obeys the same rule as real bookings.
   await Booking.init();
-  await Booking.insertMany(buildDemoBookings({ customer, services, timezone: settings.timezone }));
+  await Booking.insertMany(buildDemoBookings({ customersByKey, services, timezone: settings.timezone }));
 
   console.log("\n✅ Seed complete");
   console.log(`   Admin:    ${adminEmail} (password from ADMIN_PASSWORD)`);
   console.log(`   Customer: ${DEMO_CUSTOMER.email} / ${DEMO_CUSTOMER.password}`);
   console.log(`   Services: ${SERVICES.length}`);
-  console.log(`   Bookings: ${DEMO_BOOKINGS.length} (past + upcoming, for the demo customer)`);
+  console.log(`   Bookings: ${DEMO_BOOKINGS.length} (past, today and upcoming)`);
 }
 
 try {

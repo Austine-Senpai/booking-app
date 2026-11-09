@@ -1,0 +1,52 @@
+# Render "Blueprint": tells Render how to build and run this app.
+# Render → New → Blueprint → pick this repo. See README → "Deploy" for the full steps.
+#
+# ONE web service runs the Express API AND serves the built React app, so the
+# website and API share one domain (first-party login cookie, no CORS, one URL).
+services:
+  - type: web
+    name: booking-app
+    runtime: node
+    plan: free # sleeps after ~15 min idle; the first visit then takes up to a minute
+    # Server: production dependencies only. Client: needs its devDependencies (Vite, Tailwind) to build.
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      # Secrets: Render asks for these when you create the Blueprint (sync: false = not in this file)
+      - key: MONGODB_URI
+        sync: false
+      - key: CLIENT_URL # this service's own URL, e.g. https://booking-app.onrender.com
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true # Render makes a long random value for you
+      - key: JWT_EXPIRES_IN_DAYS
+        value: "7"
+      - key: COOKIE_SAMESITE
+        value: lax
+      # Optional email (leave empty to turn booking emails off)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      # Demo mode: shows demo logins on the login page (public portfolio demos only).
+      # Off unless you deliberately turn it on. Read at BUILD time by Vite, and baked
+      # into the public website — so NEVER enter a real admin password here.
+      - key: VITE_DEMO_MODE
+        value: "false"
+      # Only used when VITE_DEMO_MODE is "true"; must match the ADMIN_EMAIL /
+      # ADMIN_PASSWORD you seed the demo database with. Render asks for them.
+      - key: VITE_DEMO_ADMIN_EMAIL
+        sync: false
+      - key: VITE_DEMO_ADMIN_PASSWORD
+        sync: false

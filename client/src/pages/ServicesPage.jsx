@@ -6,8 +6,10 @@ import Spinner from "../components/Spinner.jsx";
 import ErrorMessage from "../components/ErrorMessage.jsx";
 import EmptyState from "../components/EmptyState.jsx";
 import { getErrorMessage } from "../utils/apiErrors.js";
+import { usePageTitle } from "../hooks/usePageTitle.js";
 
 export default function ServicesPage() {
+  usePageTitle("Services");
   const services = useFetch(getServices, []);
   const settings = useFetch(getSettings, []);
 

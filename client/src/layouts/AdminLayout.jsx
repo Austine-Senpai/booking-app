@@ -32,6 +32,12 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-slate-50 md:flex">
+      <a
+        href="#main"
+        className="sr-only rounded-lg bg-white px-4 py-2 font-semibold text-brand-700 shadow focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+      >
+        Skip to content
+      </a>
       <aside className="border-b border-slate-200 bg-white md:sticky md:top-0 md:flex md:h-screen md:w-60 md:shrink-0 md:flex-col md:border-r md:border-b-0">
         <div className="flex items-center justify-between px-4 py-3 md:block md:py-5">
           <p className="font-bold text-slate-900">{settings?.businessName ?? ""}</p>
@@ -61,7 +67,7 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1">
+      <main id="main" tabIndex={-1} className="min-w-0 flex-1 focus:outline-none">
         <Outlet />
         {/* On phones the sidebar footer is hidden, so offer these at the bottom */}
         <div className="flex gap-4 border-t border-slate-200 px-4 py-4 text-sm md:hidden">
