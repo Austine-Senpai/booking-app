@@ -152,14 +152,14 @@ Indexes: `{ startTime: 1, status: 1 }` and `{ customer: 1, startTime: -1 }`.
 
 ## Phase 2 — Services, settings & blocked times (backend)
 
-- [ ] `Service` model + zod schemas (price must be a non-negative integer)
-- [ ] Public: `GET /api/services` (active only, sorted by name), `GET /api/services/:id` (404 if missing or inactive)
-- [ ] Admin: `GET/POST/PATCH /api/admin/services` (deactivate via `isActive: false`)
-- [ ] `Settings` model + helper `getSettings()` that returns the single document, creating it with defaults if none exists
-- [ ] `GET /api/settings` (public fields only) and `PUT /api/admin/settings` (validate times are `"HH:mm"` and `close > open`)
-- [ ] `BlockedTime` model + admin list/create/delete routes (validate `end > start`)
-- [ ] `scripts/seed.js`: wipe collections; create settings, admin (from `ADMIN_EMAIL` / `ADMIN_PASSWORD` env), a demo customer (`demo@example.com` / `demo1234`), 5 realistic services (e.g. Haircut 30 min ₦5,000; Beard trim 15 min ₦2,500; Haircut + Beard 45 min ₦7,000; Kids cut 30 min ₦3,500; Dreadlocks retwist 90 min ₦15,000)
-- [ ] Tests: public vs admin access on service routes, settings validation
+- [x] `Service` model + zod schemas (price must be a non-negative integer)
+- [x] Public: `GET /api/services` (active only, sorted by name), `GET /api/services/:id` (404 if missing or inactive)
+- [x] Admin: `GET/POST/PATCH /api/admin/services` (deactivate via `isActive: false`)
+- [x] `Settings` model + helper `getSettings()` that returns the single document, creating it with defaults if none exists
+- [x] `GET /api/settings` (public fields only) and `PUT /api/admin/settings` (validate times are `"HH:mm"` and `close > open`)
+- [x] `BlockedTime` model + admin list/create/delete routes (validate `end > start`)
+- [x] `scripts/seed.js`: wipe collections; create settings, admin (from `ADMIN_EMAIL` / `ADMIN_PASSWORD` env), a demo customer (`demo@example.com` / `demo1234`), 5 realistic services (e.g. Haircut 30 min ₦5,000; Beard trim 15 min ₦2,500; Haircut + Beard 45 min ₦7,000; Kids cut 30 min ₦3,500; Dreadlocks retwist 90 min ₦15,000)
+- [x] Tests: public vs admin access on service routes, settings validation
 
 **Done when:** `npm run seed` works, services are visible at `/api/services`, and admin routes return 401/403 for the wrong users.
 

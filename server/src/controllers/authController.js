@@ -2,10 +2,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../models/User.js";
 import { AppError } from "../utils/AppError.js";
 import { setAuthCookie, clearAuthCookie } from "../utils/authCookie.js";
-
-// Cost factor for bcrypt: each +1 doubles the hashing time. 12 is a common
-// default — slow enough to make guessing expensive, fast enough for a login.
-const SALT_ROUNDS = 12;
+import { SALT_ROUNDS, hashPassword } from "../utils/password.js";
 
 // POST /api/auth/register — req.body is already validated by registerSchema
 export async function register(req, res) {
@@ -14,7 +11,7 @@ export async function register(req, res) {
   const existing = await User.exists({ email });
   if (existing) throw new AppError("An account with this email already exists", 409);
 
-  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+  const passwordHash = await hashPassword(password);
   const user = await User.create({ name, email, phone, passwordHash });
 
   setAuthCookie(res, user);

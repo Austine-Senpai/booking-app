@@ -27,6 +27,9 @@ export const env = Object.freeze({
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRES_IN_DAYS: Number(process.env.JWT_EXPIRES_IN_DAYS) || 7,
   CLIENT_URL: process.env.CLIENT_URL,
+  // Only used by scripts/seed.js, which checks them itself
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL?.trim().toLowerCase(),
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 });
 
 export const isProduction = env.NODE_ENV === "production";
