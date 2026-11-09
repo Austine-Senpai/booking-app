@@ -221,10 +221,10 @@ This is the most important part of the app. Keep it pure and well tested.
 
 ## Phase 5 — Email notifications
 
-- [ ] `services/email.js` with nodemailer; in development use an Ethereal test account (log the preview URL) when no SMTP vars are set
-- [ ] Simple HTML + plain-text templates: booking confirmed, booking cancelled, booking rescheduled (business name, service, date/time in business timezone, price, address)
-- [ ] Send after create/cancel/reschedule. **Email failures must not fail the request** — catch and log them.
-- [ ] Optional: email the admin when a new booking is made
+- [x] `services/email.js` with nodemailer; in development use an Ethereal test account (log the preview URL) when no SMTP vars are set
+- [x] Simple HTML + plain-text templates: booking confirmed, booking cancelled, booking rescheduled (business name, service, date/time in business timezone, price, address)
+- [x] Send after create/cancel/reschedule. **Email failures must not fail the request** — catch and log them.
+- [x] Optional: email the admin when a new booking is made
 
 **Done when:** creating a booking logs an Ethereal preview link showing a correct, readable email.
 

@@ -30,6 +30,12 @@ export const env = Object.freeze({
   // Only used by scripts/seed.js, which checks them itself
   ADMIN_EMAIL: process.env.ADMIN_EMAIL?.trim().toLowerCase(),
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+  // Email (all optional — see services/email.js for what happens without them)
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: Number(process.env.SMTP_PORT) || 587,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
+  EMAIL_FROM: process.env.EMAIL_FROM || "no-reply@example.com",
 });
 
 export const isProduction = env.NODE_ENV === "production";

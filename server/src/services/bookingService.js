@@ -5,6 +5,7 @@ import { Booking } from "../models/Booking.js";
 import { Service } from "../models/Service.js";
 import { getSettings } from "./settingsService.js";
 import { getAvailableSlots } from "./availability.js";
+import { notifyBookingEvent } from "./email.js";
 import { AppError } from "../utils/AppError.js";
 
 export const SLOT_TAKEN_MESSAGE = "Sorry, that time was just taken. Please pick another slot.";
@@ -95,6 +96,7 @@ export async function createBooking({ customerId, serviceId, startTime, notes, n
     notes,
   });
   await saveBooking(booking);
+  notifyBookingEvent("confirmed", booking._id); // background — not awaited
   return booking.populate("service", SERVICE_FIELDS);
 }
 
@@ -107,6 +109,7 @@ export async function cancelBooking({ bookingId, customerId, now = new Date() })
   booking.cancelledAt = now;
   booking.cancelledBy = "customer";
   await booking.save();
+  notifyBookingEvent("cancelled", booking._id);
   return booking.populate("service", SERVICE_FIELDS);
 }
 
@@ -120,6 +123,7 @@ export async function rescheduleBooking({ bookingId, customerId, startTime, now 
     throw new AppError("This service is no longer offered, so the booking can't be moved. You can cancel it instead.", 400);
   }
 
+  const previousStartTime = booking.startTime; // for the "Was: …" line in the email
   booking.endTime = await assertSlotIsBookable({
     service,
     startTime,
@@ -129,6 +133,7 @@ export async function rescheduleBooking({ bookingId, customerId, startTime, now 
   });
   booking.startTime = startTime;
   await saveBooking(booking);
+  notifyBookingEvent("rescheduled", booking._id, { previousStartTime });
   return booking.populate("service", SERVICE_FIELDS);
 }
 
@@ -194,6 +199,8 @@ export async function changeStatus({ bookingId, status, now = new Date() }) {
 
   booking.status = status;
   await saveBooking(booking);
+  // The customer must hear about it when the business cancels on them
+  if (status === "cancelled") notifyBookingEvent("cancelled", booking._id);
   return booking.populate("service", SERVICE_FIELDS);
 }
 
